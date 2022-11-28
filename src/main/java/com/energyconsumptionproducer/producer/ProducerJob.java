@@ -24,7 +24,7 @@ public class ProducerJob {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    @Scheduled(fixedDelay = 2000)
+    @Scheduled(fixedDelay = 60000)
     public void producerTask() throws IOException {
         String[] array;
         String line = csvReader.readLine();
