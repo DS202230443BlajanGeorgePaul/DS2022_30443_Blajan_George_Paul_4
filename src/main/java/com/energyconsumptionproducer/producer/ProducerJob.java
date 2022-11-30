@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,7 +17,7 @@ import java.util.Map;
 @Component
 public class ProducerJob {
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final BufferedReader csvReader = new BufferedReader(new FileReader("src/main/resources/sensor.csv"));
+    private final BufferedReader csvReader = new BufferedReader(new FileReader(ResourceUtils.getFile("classpath:sensor.csv")));
     @Value("${topic}")
     private String topic;
 
@@ -30,7 +31,7 @@ public class ProducerJob {
         String line = csvReader.readLine();
         if (line != null && !line.trim().isEmpty()) {
             array = line.split(",");
-            Map<String,String> obj = new HashMap<>();
+            Map<String, String> obj = new HashMap<>();
             obj.put("energy", array[0]);
             obj.put("time", String.valueOf(System.currentTimeMillis() / 1000));
             obj.put("device", array[1]);
