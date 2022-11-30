@@ -2,26 +2,23 @@ package com.energyconsumptionproducer.producer;
 
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class ProducerJob {
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final BufferedReader csvReader = new BufferedReader(new FileReader(ResourceUtils.getFile("classpath:sensor.csv")));
+    private final BufferedReader csvReader = new BufferedReader(new InputStreamReader(new ClassPathResource("sensor.csv").getInputStream()));
     @Value("${topic}")
     private String topic;
 
-    public ProducerJob(KafkaTemplate<String, String> kafkaTemplate) throws FileNotFoundException {
+    public ProducerJob(KafkaTemplate<String, String> kafkaTemplate) throws IOException {
         this.kafkaTemplate = kafkaTemplate;
     }
 
