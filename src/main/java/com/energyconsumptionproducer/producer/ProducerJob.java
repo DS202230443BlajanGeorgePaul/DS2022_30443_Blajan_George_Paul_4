@@ -29,7 +29,7 @@ public class ProducerJob {
             array = line.split(",");
             Map<String, String> obj = new HashMap<>();
             obj.put("energy", array[0]);
-            obj.put("time", String.valueOf(System.currentTimeMillis() / 1000));
+            obj.put("time", String.valueOf(System.currentTimeMillis()));
             obj.put("device", array[1]);
             kafkaTemplate.send(topic, JSONValue.toJSONString(obj));
             count++;
