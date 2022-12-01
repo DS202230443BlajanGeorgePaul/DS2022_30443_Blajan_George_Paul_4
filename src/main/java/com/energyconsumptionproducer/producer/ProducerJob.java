@@ -2,6 +2,7 @@ package com.energyconsumptionproducer.producer;
 
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import java.util.Map;
 @Component
 public class ProducerJob {
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final BufferedReader csvReader = new BufferedReader(new InputStreamReader(ResourceUtils.getURL("classpath:sensor.csv").openStream()));
+    private final BufferedReader csvReader = new BufferedReader(new InputStreamReader(new ClassPathResource("sensor.csv").getInputStream()));
     @Value("${topic}")
     private String topic;
 
